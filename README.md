@@ -2,20 +2,17 @@
 
 یک افزونه ساده برای Chrome که به شما اجازه می‌دهد روی هر صفحه وب با ماوس نقاشی و علامت‌گذاری کنید.
 
-![Screen Marker](./docs/screenshot.png)
+<p align="center">
+  <img src="./docs/screenshot.png" alt="Screen Marker">
+</p>
 
 ## ⚙️ نصب
 
 1. این پروژه را دانلود یا Clone کنید.
-
 2. در Chrome وارد صفحه زیر شوید:
-
    `chrome://extensions/`
-
 3. گزینه **Developer mode** را از بالای صفحه فعال کنید.
-
 4. روی **Load unpacked** کلیک کنید.
-
 5. پوشه پروژه را انتخاب کنید.
 
 افزونه نصب شده و آیکون **Screen Marker** در قسمت Extensions نمایش داده می‌شود.
@@ -46,8 +43,7 @@ Screen Marker/
 ├── manifest.json
 ├── popup.html
 ├── popup.js
-├── content.js
-└── screenshot.png
+└── content.js
 ```
 
 ## 📝 نکته
