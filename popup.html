@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Screen Marker</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+      background: #1e1e2f;
+      min-width: 240px;
+      padding: 16px 12px 20px;
+      color: #f0f0f5;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    h2 {
+      font-weight: 400;
+      font-size: 1.1rem;
+      letter-spacing: 0.5px;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #c9d1ff;
+      border-bottom: 1px solid #3a3a5a;
+      padding-bottom: 8px;
+      width: 100%;
+      justify-content: center;
+    }
+    h2 i {
+      font-size: 1.2rem;
+      color: #f7b731;
+    }
+    .toggle-wrap {
+      width: 100%;
+      margin-bottom: 18px;
+    }
+    #activateBtn {
+      width: 100%;
+      padding: 12px 0;
+      font-size: 1.2rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 60px;
+      background: #3b3b6b;
+      color: #d4d4f0;
+      box-shadow: 0 4px 0 #1f1f3a;
+      transition: 0.1s ease;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      letter-spacing: 0.3px;
+    }
+    #activateBtn.active {
+      background: #f7b731;
+      color: #1e1e2f;
+      box-shadow: 0 4px 0 #b57c1a;
+    }
+    #activateBtn.active i {
+      color: #1e1e2f;
+    }
+    #activateBtn:active {
+      transform: translateY(2px);
+      box-shadow: 0 2px 0 #1f1f3a;
+    }
+    .palette {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 8px;
+      width: 100%;
+      margin: 8px 0 16px;
+    }
+    .color-swatch {
+      aspect-ratio: 1/1;
+      border-radius: 30px;
+      border: 2px solid transparent;
+      cursor: pointer;
+      transition: 0.1s;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+    }
+    .color-swatch:hover {
+      transform: scale(1.08);
+      border-color: #ffffffcc;
+    }
+    .color-swatch.active-swatch {
+      border: 3px solid white;
+      box-shadow: 0 0 0 2px #1e1e2f, 0 0 0 4px #f7b731;
+    }
+    .size-section {
+      width: 100%;
+      background: #2b2b48;
+      padding: 10px 12px 14px;
+      border-radius: 30px;
+      margin-top: 4px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .size-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.9rem;
+      font-weight: 300;
+      color: #b7bce6;
+      padding: 0 4px;
+    }
+    .size-label span:last-child {
+      background: #3d3d64;
+      padding: 0 12px;
+      border-radius: 30px;
+      color: #f0f0ff;
+    }
+    input[type="range"] {
+      width: 100%;
+      height: 6px;
+      -webkit-appearance: none;
+      background: #4a4a77;
+      border-radius: 10px;
+      outline: none;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 18px;
+      height: 18px;
+      background: #f7b731;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid #1e1e2f;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+    }
+    .status {
+      margin-top: 16px;
+      font-size: 0.75rem;
+      background: #28284a;
+      padding: 6px 16px;
+      border-radius: 40px;
+      color: #a9b0e6;
+      letter-spacing: 0.3px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .status i {
+      color: #f7b731;
+    }
+    .footer {
+      margin-top: 10px;
+      font-size: 0.6rem;
+      opacity: 0.5;
+      color: #7a7aa3;
+    }
+    .error-msg {
+      color: #ff6b6b;
+      font-size: 0.7rem;
+      margin-top: 8px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h2>
+    <i class="fas fa-pen-fancy"></i> Screen Marker
+  </h2>
+
+  <div class="toggle-wrap">
+    <button id="activateBtn">
+      <i class="fas fa-paint-brush"></i> 
+      <span id="btnLabel">Activate</span>
+    </button>
+  </div>
+
+  <div class="palette" id="colorPalette"></div>
+
+  <div class="size-section">
+    <div class="size-label">
+      <span><i class="fas fa-circle" style="font-size: 0.7rem;"></i> Size</span>
+      <span id="sizeDisplay">6</span>
+    </div>
+    <input type="range" id="sizeSlider" min="2" max="30" value="6" step="1">
+  </div>
+
+  <div class="status">
+    <i class="fas fa-info-circle"></i> 
+    <span id="statusText">click <strong>Activate</strong> to draw</span>
+  </div>
+  <div class="footer">drag mouse · right-click to stop</div>
+  <div class="error-msg" id="errorMsg">⚠️ Reload the page and try again</div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
